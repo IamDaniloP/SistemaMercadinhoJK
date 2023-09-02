@@ -1,35 +1,56 @@
 package modelo.entidades.cliente;
 
-import modelo.entidades.funcionario.Estoque;
 import modelo.entidades.funcionario.QuantidadeProduto;
-import modelo.entidades.pagamento.Pagamento;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarrinhoCliente {
-    private List<QuantidadeProduto> listaProdutosEscolhidos;
+    private List<ProdutoCliente> listaProdutosEscolhidos;
 
     public CarrinhoCliente() {
         listaProdutosEscolhidos = new ArrayList<>();
     }
 
-    public List<QuantidadeProduto> getListaProdutosEscolhidos() {
+    public List<ProdutoCliente> getListaProdutosEscolhidos() {
         return listaProdutosEscolhidos;
     }
 
-    public void inserirCarrinho(List<QuantidadeProduto> listaEstoque,QuantidadeProduto produtoCliente) {
+    public boolean inserirCarrinho(List<QuantidadeProduto> listaEstoque,ProdutoCliente produtoCliente) {
         for (QuantidadeProduto produtoEstoque : listaEstoque) {
-            if (produtoEstoque.getProduto().getNome().equals(produtoCliente.getProduto().getNome())) {
+            if (produtoEstoque.getProduto().getNome().equals(produtoCliente.getNome())) {
                 if (produtoEstoque.getQuantidade() > produtoCliente.getQuantidade()) {
                     listaProdutosEscolhidos.add(produtoCliente);
+                    System.out.println();
+                    System.out.println("|--PRODUTO INSERIDO NO CARRINHO--|");
+                    return true;
                 } else {
-                    System.out.println("|--QUANTIDADE INSUFICIENTE--|");
                     produtoCliente.setQuantidade(produtoEstoque.getQuantidade());
+                    listaProdutosEscolhidos.add(produtoCliente);
+                    return true;
                 }
-            } else {
-                System.out.println("|--PRODUTO NÃO CADASTRADO--|");
             }
+        }
+        System.out.println();
+        System.out.println("|--PRODUTO NÃO CADASTRADO--|");
+        return false;
+    }
+
+    public int removerCarrinho(String nome) {
+        int i = 0;
+        for (ProdutoCliente produtoCliente : listaProdutosEscolhidos) {
+            if (produtoCliente.getNome().equals(nome)) {
+                listaProdutosEscolhidos.remove(i);
+                return produtoCliente.getQuantidade();
+            }
+            i++;
+        }
+        System.out.println("|--PRODUTO NÃO ENCONTRADO--|");
+        return i = -1;
+    }
+    public void imprimeCarrinho() {
+        for (ProdutoCliente produtoCliente : listaProdutosEscolhidos) {
+            System.out.println(produtoCliente);
         }
     }
 }
