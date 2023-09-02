@@ -1,24 +1,22 @@
 package aplicacao;
 
 import modelo.entidades.cliente.CarrinhoCliente;
-import modelo.entidades.cliente.QuantidadeProdutoCliente;
 import modelo.entidades.funcionario.Estoque;
 import modelo.entidades.funcionario.Produto;
 import modelo.entidades.funcionario.QuantidadeProduto;
-import modelo.entidades.pagamento.Pagamento;
 
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class ProgramaFuncionario {
+public class Programa {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
         Scanner input = new Scanner(System.in);
 
         System.out.println("Escolha o que deseja fazer: ");
         Estoque estoque = new Estoque();
-        Pagamento pagamento = new Pagamento();
+        CarrinhoCliente  carrinhoCliente = new CarrinhoCliente();
 
         int opcao;
         try {
@@ -58,9 +56,14 @@ public class ProgramaFuncionario {
                             System.out.printf("%nNome do produto: ");
                             input.nextLine();
                             String nomeProduto = input.nextLine();
-                            System.out.printf("%nQuantidade: ");
-                            int quantidade = input.nextInt();
-                            estoque.adicionaQuantidadeProduto(nomeProduto, quantidade);
+                            if (estoque.verificaProdutoExistente(nomeProduto) != -1) {
+                                System.out.printf("%nQuantidade: ");
+                                int quantidade = input.nextInt();
+                                estoque.adicionaQuantidadeProduto(nomeProduto, quantidade);
+                            } else {
+                                estoque.naoCadastrado();
+                                continue;
+                            }
                             System.out.println();
                             estoque.imprime_produtos();
                             System.out.println();
@@ -81,6 +84,17 @@ public class ProgramaFuncionario {
         } catch (InputMismatchException e) {
             System.out.println("Erro na inserção de dados: " + e.getMessage()); // realizar o tratamento de erro
         }
+
+        /*estoque.adicionaNovoProduto(new QuantidadeProduto(new Produto("Laranja", "Alimentos", 10.90), 15));
+        estoque.adicionaNovoProduto(new QuantidadeProduto(new Produto("Uva", "Alimentos", 10.90), 15));
+        estoque.adicionaNovoProduto(new QuantidadeProduto(new Produto("Pêra", "Alimentos", 10.90), 15));
+        estoque.adicionaNovoProduto(new QuantidadeProduto(new Produto("Maçã", "Alimentos", 10.90), 15));
+        estoque.adicionaNovoProduto(new QuantidadeProduto(new Produto("Abacaxi", "Alimentos", 10.90), 15));*/
+
+        System.out.println();
+        System.out.println("|--PRODUTOS DISPONÍVEIS--|");
+        estoque.imprime_produtos();
+        System.out.println("|----------FIM-----------|");
 
         input.close();
     }

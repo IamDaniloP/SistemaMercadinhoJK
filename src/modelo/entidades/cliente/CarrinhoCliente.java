@@ -8,37 +8,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarrinhoCliente {
-    private List<QuantidadeProdutoCliente> listaProdutosEscolhidos;
-    private Estoque estoque;
-    private Pagamento pagamento;
+    private List<QuantidadeProduto> listaProdutosEscolhidos;
 
     public CarrinhoCliente() {
         listaProdutosEscolhidos = new ArrayList<>();
-        estoque = new Estoque();
-        pagamento = new Pagamento();
     }
 
-    public List<QuantidadeProdutoCliente> getListaProdutosEscolhidos() {
+    public List<QuantidadeProduto> getListaProdutosEscolhidos() {
         return listaProdutosEscolhidos;
     }
 
-    public void inserirCarrinho(QuantidadeProduto produtoCliente) {
-        listaProdutosEscolhidos.add((QuantidadeProdutoCliente) produtoCliente);
-    }
-
-    public boolean verificaEstoque(List<QuantidadeProduto> listaEstoque) {
-        listaEstoque.forEach(produtoEstoque -> {
-            listaProdutosEscolhidos.forEach(produtoCliente -> {
-                if (produtoEstoque.getProduto().getNome().equals(produtoCliente.getProduto().getNome())) {
-                    if (produtoEstoque.getQuantidade() > produtoCliente.getQuantidade()) {
-                        pagamento.adicionarProdutosPagamento(produtoCliente);
-                    } else {
-                        //Criar função reajusta quantidade.
-                        System.out.println("Não possui estoque disponível.");
-                    }
+    public void inserirCarrinho(List<QuantidadeProduto> listaEstoque,QuantidadeProduto produtoCliente) {
+        for (QuantidadeProduto produtoEstoque : listaEstoque) {
+            if (produtoEstoque.getProduto().getNome().equals(produtoCliente.getProduto().getNome())) {
+                if (produtoEstoque.getQuantidade() > produtoCliente.getQuantidade()) {
+                    listaProdutosEscolhidos.add(produtoCliente);
+                } else {
+                    System.out.println("|--QUANTIDADE INSUFICIENTE--|");
+                    produtoCliente.setQuantidade(produtoEstoque.getQuantidade());
                 }
-            });
-        });
-        return false;
+            } else {
+                System.out.println("|--PRODUTO NÃO CADASTRADO--|");
+            }
+        }
     }
 }
