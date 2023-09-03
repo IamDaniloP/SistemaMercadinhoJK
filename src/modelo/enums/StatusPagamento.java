@@ -1,6 +1,6 @@
 package modelo.enums;
 
-public enum ProcessamentoPagamento {
+public enum StatusPagamento {
     PAGO,
     PROCESSANDO_PAGAMENTO,
     FALHA;

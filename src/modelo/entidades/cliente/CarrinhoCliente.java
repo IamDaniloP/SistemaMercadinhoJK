@@ -48,6 +48,21 @@ public class CarrinhoCliente {
         System.out.println("|--PRODUTO NÃO ENCONTRADO--|");
         return i = -1;
     }
+
+    public double totalCarrinho(List<QuantidadeProduto> listaEstoque) {
+        double total = 0;
+        for (ProdutoCliente produto : listaProdutosEscolhidos) {
+            for (QuantidadeProduto precoProduto : listaEstoque) {
+                if (precoProduto.getProduto().getNome().equals(produto.getNome())) {
+                    System.out.println(produto + " x" + String.format("%.2f",precoProduto.getPreco()) + "Kg");
+                    total += precoProduto.getPreco() * produto.getQuantidade();
+                    break;
+                }
+            }
+        }
+        return total;
+    }
+
     public void imprimeCarrinho() {
         for (ProdutoCliente produtoCliente : listaProdutosEscolhidos) {
             System.out.println(produtoCliente);

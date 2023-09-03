@@ -1,11 +1,17 @@
 package aplicacao;
 
+import modelo.entidades.Relatorio;
 import modelo.entidades.cliente.CarrinhoCliente;
+import modelo.entidades.cliente.Cliente;
 import modelo.entidades.cliente.ProdutoCliente;
 import modelo.entidades.funcionario.Estoque;
 import modelo.entidades.funcionario.Produto;
 import modelo.entidades.funcionario.QuantidadeProduto;
+import modelo.entidades.pagamento.Pagamento;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
@@ -17,6 +23,9 @@ public class Programa {
 
         Estoque estoque = new Estoque();
         CarrinhoCliente  carrinhoCliente = new CarrinhoCliente();
+        Relatorio relatorio = new Relatorio();
+        Pagamento pagamento;
+
         try {
             int opcaoInicial;
             do {
@@ -25,6 +34,7 @@ public class Programa {
                 System.out.println();
                 System.out.println("1 - Estoque");
                 System.out.println("2 - Caixa");
+                System.out.println("3 - Imprimir relatório");
                 System.out.println("0 - Sair");
                 System.out.println();
                 opcaoInicial = input.nextInt();
@@ -134,11 +144,41 @@ public class Programa {
                                             estoque.adicionaQuantidadeProduto(nome, removerCarrinho);
                                         }
                                     }
+                                    case 3 -> {
+                                        System.out.println();
+                                        System.out.println("|--DADOS CADASTRAIS DO CLIENTE--|");
+                                        System.out.println();
+                                        System.out.print("Nome: ");
+                                        input.nextLine();
+                                        String nome = input.nextLine();
+
+                                        pagamento = new Pagamento(new Cliente(nome), carrinhoCliente.getListaProdutosEscolhidos());
+                                        System.out.printf("%nTotal: %.2f", pagamento.totalCarrinho(estoque.getListProdutos()));
+                                        System.out.println();
+                                        System.out.println();
+
+                                        relatorio.adicionaAListaPagamentos(pagamento);
+                                        carrinhoCliente = new CarrinhoCliente();
+                                        opcaoCaixa = 0;
+                                    }
                                 }
                             } while (opcaoCaixa != 0);
                         } catch (InputMismatchException e) {
                             System.out.println("Erro na inserção de dados: " + e.getMessage());
                         }
+                    }
+                    case 3 -> {
+                        System.out.println(relatorio);
+
+                        /*try (BufferedReader br = new BufferedReader(new FileReader("/home/emanuelle/Documentos/relatorio.txt"))) {
+                            String linhaSeguinte = br.readLine();
+                            while (linhaSeguinte != null) {
+                                System.out.println(linhaSeguinte);
+                                linhaSeguinte = br.readLine();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }*/
                     }
                 }
             } while (opcaoInicial != 0);
