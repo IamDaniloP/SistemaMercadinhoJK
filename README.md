@@ -1,2 +1,2 @@
 # SistemaMercadinhoJK
-Projeto sendo desenvolvido e pensado do zero, buscando aprender boas práticas, aprimorar a lógica e regras.
+Meu primeiro projeto pessoal em java, deixarei aqui como recordação para lembrar onde tudo começou.
