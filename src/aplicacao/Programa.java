@@ -91,6 +91,9 @@ public class Programa {
                                             System.out.println();
                                         }
                                     }
+                                    case 3 -> {
+                                        Pagamento.testeRetornoString();
+                                    }
                                 }
                             } while (opcao != 0);
                         } catch (InputMismatchException e) {

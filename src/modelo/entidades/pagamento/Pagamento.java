@@ -67,4 +67,8 @@ public class Pagamento {
         return sb.toString();
     }
 
+    public static String testeRetornoString() {
+        System.out.println("Básicamente, isso está sendo criado para que seja possível testar o fork.")
+    }
+
 }
